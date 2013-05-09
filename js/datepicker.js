@@ -20,7 +20,7 @@
  * Depends:
  *   jquery.js
  */
-(function ($) {
+(function ($, Mustache) {
   var cache = {}, tmpl,
   DatePicker = function () {
     var ids = {},
@@ -36,18 +36,18 @@
           '<table cellspacing="0" cellpadding="0">',
             '<thead>',
               '<tr>',
-                '<th colspan="7"><a class="datepickerGoPrev" href="#"><span><%=prev%></span></a>',
+                '<th colspan="7"><a class="datepickerGoPrev" href="#"><span>{{prev}}</span></a>',
                 '<a class="datepickerMonth" href="#"><span></span></a>',
-                '<a class="datepickerGoNext" href="#"><span><%=next%></span></a></th>',
+                '<a class="datepickerGoNext" href="#"><span>{{next}}</span></a></th>',
               '</tr>',
               '<tr class="datepickerDoW">',
-                '<th><span><%=day1%></span></th>',
-                '<th><span><%=day2%></span></th>',
-                '<th><span><%=day3%></span></th>',
-                '<th><span><%=day4%></span></th>',
-                '<th><span><%=day5%></span></th>',
-                '<th><span><%=day6%></span></th>',
-                '<th><span><%=day7%></span></th>',
+                '<th><span>{{day1}}</span></th>',
+                '<th><span>{{day2}}</span></th>',
+                '<th><span>{{day3}}</span></th>',
+                '<th><span>{{day4}}</span></th>',
+                '<th><span>{{day5}}</span></th>',
+                '<th><span>{{day6}}</span></th>',
+                '<th><span>{{day7}}</span></th>',
               '</tr>',
             '</thead>',
           '</table></td>'
@@ -56,80 +56,80 @@
         days: [
           '<tbody class="datepickerDays">',
             '<tr>',
-              '<td class="<%=weeks[0].days[0].classname%>"><a href="#"><span><%=weeks[0].days[0].text%></span></a></td>',
-              '<td class="<%=weeks[0].days[1].classname%>"><a href="#"><span><%=weeks[0].days[1].text%></span></a></td>',
-              '<td class="<%=weeks[0].days[2].classname%>"><a href="#"><span><%=weeks[0].days[2].text%></span></a></td>',
-              '<td class="<%=weeks[0].days[3].classname%>"><a href="#"><span><%=weeks[0].days[3].text%></span></a></td>',
-              '<td class="<%=weeks[0].days[4].classname%>"><a href="#"><span><%=weeks[0].days[4].text%></span></a></td>',
-              '<td class="<%=weeks[0].days[5].classname%>"><a href="#"><span><%=weeks[0].days[5].text%></span></a></td>',
-              '<td class="<%=weeks[0].days[6].classname%>"><a href="#"><span><%=weeks[0].days[6].text%></span></a></td>',
+              '<td class="{{weeks[0].days[0].classname}}"><a href="#"><span>{{weeks[0].days[0].text}}</span></a></td>',
+              '<td class="{{weeks[0].days[1].classname}}"><a href="#"><span>{{weeks[0].days[1].text}}</span></a></td>',
+              '<td class="{{weeks[0].days[2].classname}}"><a href="#"><span>{{weeks[0].days[2].text}}</span></a></td>',
+              '<td class="{{weeks[0].days[3].classname}}"><a href="#"><span>{{weeks[0].days[3].text}}</span></a></td>',
+              '<td class="{{weeks[0].days[4].classname}}"><a href="#"><span>{{weeks[0].days[4].text}}</span></a></td>',
+              '<td class="{{weeks[0].days[5].classname}}"><a href="#"><span>{{weeks[0].days[5].text}}</span></a></td>',
+              '<td class="{{weeks[0].days[6].classname}}"><a href="#"><span>{{weeks[0].days[6].text}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td class="<%=weeks[1].days[0].classname%>"><a href="#"><span><%=weeks[1].days[0].text%></span></a></td>',
-              '<td class="<%=weeks[1].days[1].classname%>"><a href="#"><span><%=weeks[1].days[1].text%></span></a></td>',
-              '<td class="<%=weeks[1].days[2].classname%>"><a href="#"><span><%=weeks[1].days[2].text%></span></a></td>',
-              '<td class="<%=weeks[1].days[3].classname%>"><a href="#"><span><%=weeks[1].days[3].text%></span></a></td>',
-              '<td class="<%=weeks[1].days[4].classname%>"><a href="#"><span><%=weeks[1].days[4].text%></span></a></td>',
-              '<td class="<%=weeks[1].days[5].classname%>"><a href="#"><span><%=weeks[1].days[5].text%></span></a></td>',
-              '<td class="<%=weeks[1].days[6].classname%>"><a href="#"><span><%=weeks[1].days[6].text%></span></a></td>',
+              '<td class="{{weeks[1].days[0].classname}}"><a href="#"><span>{{weeks[1].days[0].text}}</span></a></td>',
+              '<td class="{{weeks[1].days[1].classname}}"><a href="#"><span>{{weeks[1].days[1].text}}</span></a></td>',
+              '<td class="{{weeks[1].days[2].classname}}"><a href="#"><span>{{weeks[1].days[2].text}}</span></a></td>',
+              '<td class="{{weeks[1].days[3].classname}}"><a href="#"><span>{{weeks[1].days[3].text}}</span></a></td>',
+              '<td class="{{weeks[1].days[4].classname}}"><a href="#"><span>{{weeks[1].days[4].text}}</span></a></td>',
+              '<td class="{{weeks[1].days[5].classname}}"><a href="#"><span>{{weeks[1].days[5].text}}</span></a></td>',
+              '<td class="{{weeks[1].days[6].classname}}"><a href="#"><span>{{weeks[1].days[6].text}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td class="<%=weeks[2].days[0].classname%>"><a href="#"><span><%=weeks[2].days[0].text%></span></a></td>',
-              '<td class="<%=weeks[2].days[1].classname%>"><a href="#"><span><%=weeks[2].days[1].text%></span></a></td>',
-              '<td class="<%=weeks[2].days[2].classname%>"><a href="#"><span><%=weeks[2].days[2].text%></span></a></td>',
-              '<td class="<%=weeks[2].days[3].classname%>"><a href="#"><span><%=weeks[2].days[3].text%></span></a></td>',
-              '<td class="<%=weeks[2].days[4].classname%>"><a href="#"><span><%=weeks[2].days[4].text%></span></a></td>',
-              '<td class="<%=weeks[2].days[5].classname%>"><a href="#"><span><%=weeks[2].days[5].text%></span></a></td>',
-              '<td class="<%=weeks[2].days[6].classname%>"><a href="#"><span><%=weeks[2].days[6].text%></span></a></td>',
+              '<td class="{{weeks[2].days[0].classname}}"><a href="#"><span>{{weeks[2].days[0].text}}</span></a></td>',
+              '<td class="{{weeks[2].days[1].classname}}"><a href="#"><span>{{weeks[2].days[1].text}}</span></a></td>',
+              '<td class="{{weeks[2].days[2].classname}}"><a href="#"><span>{{weeks[2].days[2].text}}</span></a></td>',
+              '<td class="{{weeks[2].days[3].classname}}"><a href="#"><span>{{weeks[2].days[3].text}}</span></a></td>',
+              '<td class="{{weeks[2].days[4].classname}}"><a href="#"><span>{{weeks[2].days[4].text}}</span></a></td>',
+              '<td class="{{weeks[2].days[5].classname}}"><a href="#"><span>{{weeks[2].days[5].text}}</span></a></td>',
+              '<td class="{{weeks[2].days[6].classname}}"><a href="#"><span>{{weeks[2].days[6].text}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td class="<%=weeks[3].days[0].classname%>"><a href="#"><span><%=weeks[3].days[0].text%></span></a></td>',
-              '<td class="<%=weeks[3].days[1].classname%>"><a href="#"><span><%=weeks[3].days[1].text%></span></a></td>',
-              '<td class="<%=weeks[3].days[2].classname%>"><a href="#"><span><%=weeks[3].days[2].text%></span></a></td>',
-              '<td class="<%=weeks[3].days[3].classname%>"><a href="#"><span><%=weeks[3].days[3].text%></span></a></td>',
-              '<td class="<%=weeks[3].days[4].classname%>"><a href="#"><span><%=weeks[3].days[4].text%></span></a></td>',
-              '<td class="<%=weeks[3].days[5].classname%>"><a href="#"><span><%=weeks[3].days[5].text%></span></a></td>',
-              '<td class="<%=weeks[3].days[6].classname%>"><a href="#"><span><%=weeks[3].days[6].text%></span></a></td>',
+              '<td class="{{weeks[3].days[0].classname}}"><a href="#"><span>{{weeks[3].days[0].text}}</span></a></td>',
+              '<td class="{{weeks[3].days[1].classname}}"><a href="#"><span>{{weeks[3].days[1].text}}</span></a></td>',
+              '<td class="{{weeks[3].days[2].classname}}"><a href="#"><span>{{weeks[3].days[2].text}}</span></a></td>',
+              '<td class="{{weeks[3].days[3].classname}}"><a href="#"><span>{{weeks[3].days[3].text}}</span></a></td>',
+              '<td class="{{weeks[3].days[4].classname}}"><a href="#"><span>{{weeks[3].days[4].text}}</span></a></td>',
+              '<td class="{{weeks[3].days[5].classname}}"><a href="#"><span>{{weeks[3].days[5].text}}</span></a></td>',
+              '<td class="{{weeks[3].days[6].classname}}"><a href="#"><span>{{weeks[3].days[6].text}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td class="<%=weeks[4].days[0].classname%>"><a href="#"><span><%=weeks[4].days[0].text%></span></a></td>',
-              '<td class="<%=weeks[4].days[1].classname%>"><a href="#"><span><%=weeks[4].days[1].text%></span></a></td>',
-              '<td class="<%=weeks[4].days[2].classname%>"><a href="#"><span><%=weeks[4].days[2].text%></span></a></td>',
-              '<td class="<%=weeks[4].days[3].classname%>"><a href="#"><span><%=weeks[4].days[3].text%></span></a></td>',
-              '<td class="<%=weeks[4].days[4].classname%>"><a href="#"><span><%=weeks[4].days[4].text%></span></a></td>',
-              '<td class="<%=weeks[4].days[5].classname%>"><a href="#"><span><%=weeks[4].days[5].text%></span></a></td>',
-              '<td class="<%=weeks[4].days[6].classname%>"><a href="#"><span><%=weeks[4].days[6].text%></span></a></td>',
+              '<td class="{{weeks[4].days[0].classname}}"><a href="#"><span>{{weeks[4].days[0].text}}</span></a></td>',
+              '<td class="{{weeks[4].days[1].classname}}"><a href="#"><span>{{weeks[4].days[1].text}}</span></a></td>',
+              '<td class="{{weeks[4].days[2].classname}}"><a href="#"><span>{{weeks[4].days[2].text}}</span></a></td>',
+              '<td class="{{weeks[4].days[3].classname}}"><a href="#"><span>{{weeks[4].days[3].text}}</span></a></td>',
+              '<td class="{{weeks[4].days[4].classname}}"><a href="#"><span>{{weeks[4].days[4].text}}</span></a></td>',
+              '<td class="{{weeks[4].days[5].classname}}"><a href="#"><span>{{weeks[4].days[5].text}}</span></a></td>',
+              '<td class="{{weeks[4].days[6].classname}}"><a href="#"><span>{{weeks[4].days[6].text}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td class="<%=weeks[5].days[0].classname%>"><a href="#"><span><%=weeks[5].days[0].text%></span></a></td>',
-              '<td class="<%=weeks[5].days[1].classname%>"><a href="#"><span><%=weeks[5].days[1].text%></span></a></td>',
-              '<td class="<%=weeks[5].days[2].classname%>"><a href="#"><span><%=weeks[5].days[2].text%></span></a></td>',
-              '<td class="<%=weeks[5].days[3].classname%>"><a href="#"><span><%=weeks[5].days[3].text%></span></a></td>',
-              '<td class="<%=weeks[5].days[4].classname%>"><a href="#"><span><%=weeks[5].days[4].text%></span></a></td>',
-              '<td class="<%=weeks[5].days[5].classname%>"><a href="#"><span><%=weeks[5].days[5].text%></span></a></td>',
-              '<td class="<%=weeks[5].days[6].classname%>"><a href="#"><span><%=weeks[5].days[6].text%></span></a></td>',
+              '<td class="{{weeks[5].days[0].classname}}"><a href="#"><span>{{weeks[5].days[0].text}}</span></a></td>',
+              '<td class="{{weeks[5].days[1].classname}}"><a href="#"><span>{{weeks[5].days[1].text}}</span></a></td>',
+              '<td class="{{weeks[5].days[2].classname}}"><a href="#"><span>{{weeks[5].days[2].text}}</span></a></td>',
+              '<td class="{{weeks[5].days[3].classname}}"><a href="#"><span>{{weeks[5].days[3].text}}</span></a></td>',
+              '<td class="{{weeks[5].days[4].classname}}"><a href="#"><span>{{weeks[5].days[4].text}}</span></a></td>',
+              '<td class="{{weeks[5].days[5].classname}}"><a href="#"><span>{{weeks[5].days[5].text}}</span></a></td>',
+              '<td class="{{weeks[5].days[6].classname}}"><a href="#"><span>{{weeks[5].days[6].text}}</span></a></td>',
             '</tr>',
           '</tbody>'
         ],
         months: [
-          '<tbody class="<%=className%>">',
+          '<tbody class="{{className}}">',
             '<tr>',
-              '<td colspan="2"><a href="#"><span><%=data[0]%></span></a></td>',
-              '<td colspan="2"><a href="#"><span><%=data[1]%></span></a></td>',
-              '<td colspan="2"><a href="#"><span><%=data[2]%></span></a></td>',
-              '<td colspan="1"><a href="#"><span><%=data[3]%></span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[0]}}</span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[1]}}</span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[2]}}</span></a></td>',
+              '<td colspan="1"><a href="#"><span>{{data[3]}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td colspan="2"><a href="#"><span><%=data[4]%></span></a></td>',
-              '<td colspan="2"><a href="#"><span><%=data[5]%></span></a></td>',
-              '<td colspan="2"><a href="#"><span><%=data[6]%></span></a></td>',
-              '<td colspan="1"><a href="#"><span><%=data[7]%></span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[4]}}</span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[5]}}</span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[6]}}</span></a></td>',
+              '<td colspan="1"><a href="#"><span>{{data[7]}}</span></a></td>',
             '</tr>',
             '<tr>',
-              '<td colspan="2"><a href="#"><span><%=data[8]%></span></a></td>',
-              '<td colspan="2"><a href="#"><span><%=data[9]%></span></a></td>',
-              '<td colspan="2"><a href="#"><span><%=data[10]%></span></a></td>',
-              '<td colspan="1"><a href="#"><span><%=data[11]%></span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[8]}}</span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[9]}}</span></a></td>',
+              '<td colspan="2"><a href="#"><span>{{data[10]}}</span></a></td>',
+              '<td colspan="1"><a href="#"><span>{{data[11]}}</span></a></td>',
             '</tr>',
           '</tbody>'
         ]
@@ -1000,21 +1000,10 @@
     // load the template - and be sure to cache the result.
     var fn = !/\W/.test(str) ?
       cache[str] = cache[str] ||
-      tmpl(document.getElementById(str).innerHTML) :
-
-      // Generate a reusable function that will serve as a template
-      // generator (and which will be cached).
-      function(data) {
-        for (key in data) {
-          if (data.hasOwnProperty(key)) {
-            str = str.replace('<%=' + key + '=>', data[key]);
-          }
-        }
-        return str;
-      };
+      tmpl(document.getElementById(str).innerHTML) : function(d) { return Mustache.render(str, d) };
    
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
 
-})(jQuery);
+})(jQuery, Mustache);
